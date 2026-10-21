@@ -11,9 +11,9 @@ This repository contains the code, processed feature tables and figures behind t
 
 | Folder or file | Content | Output |
 |---|---|---|
-| `modelo.ipynb` | Full pipeline: baselines, dataset variants, Random Forest, evaluation, inference on a new signal | Results tables and figures of Sections 6–7 |
+| `modelo.ipynb` | Full pipeline: baselines, dataset variants, Random Forest, evaluation, inference on a new signal. Exports `resultados_modelo_fatiga.csv` (true label and Random Forest prediction per test window) | Results tables and figures of Sections 6–7 |
 | `Modificacion_dataset/` | Feature tables per window: clean, bilateral, smoothed and interpolated versions | Input to `modelo.ipynb` |
-| `graficas/` | Confusion matrix, per-subject F1, feature importance, triplet comparison | Figures of Section 7 |
+| `graficas/` | Confusion matrix, per-subject F1, feature importance, triplet comparison, class distribution (real vs predicted) | Figures of Section 7 |
 | `graficas_todos_los_sujetos/` | Feature trajectories for every participant, recording and leg (`sujetoN_RM_lado.png`) | Per-participant trajectories |
 | `prueba/` | Example of a new signal and its extracted features | Inference on a signal the model has not seen |
 | `signal_quality/` | Signal-quality and exclusion scripts, per-recording quality table | Sections 2.3–2.4 and Figure 1 |

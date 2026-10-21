@@ -12,6 +12,7 @@ This repository contains the code, processed feature tables and figures behind t
 | Folder or file | Content | Output |
 |---|---|---|
 | `modelo.ipynb` | Full pipeline: baselines, dataset variants, Random Forest, evaluation, inference on a new signal. Exports `resultados_modelo_fatiga.csv` (true label and Random Forest prediction per test window) | Results tables and figures of Sections 6–7 |
+| `resultados_modelo_fatiga.csv` | True label and Random Forest prediction for each of the 17,860 test windows, exported by `modelo.ipynb` | Accuracy 0.755, macro-F1 0.755 (Table 8) |
 | `Modificacion_dataset/` | Feature tables per window: clean, bilateral, smoothed and interpolated versions | Input to `modelo.ipynb` |
 | `graficas/` | Confusion matrix, per-subject F1, feature importance, triplet comparison, class distribution (real vs predicted) | Figures of Section 7 |
 | `graficas_todos_los_sujetos/` | Feature trajectories for every participant, recording and leg (`sujetoN_RM_lado.png`) | Per-participant trajectories |

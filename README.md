@@ -43,3 +43,10 @@ jupyter nbconvert --to notebook --execute pipeline_completo.ipynb --output pipel
 - The raw EMG dataset is not committed. It was distributed by the course instructor.
 - No participant names are stored in this repository: participants are labelled `sujeto1`–`sujeto15`, and the quality scripts use S01–S15 (alphabetical order of the dataset folders).
 - Sampling rate: 1000 Hz. Columns of each raw CSV: `Relative_Time_s`, `ADC_Value`, `Voltage_mV`.
+
+  
+## Contributions
+- **Cristian**: Literature review and State of the Art. Drafting final conclusions, group contributions, references (IEEE/APA), and appendices. Final assembly, Abstract writing, and PDF generation.
+- **Estefanía**: Signal processing and feature extraction. Programmed temporal thirds labeling, filtering (Butterworth/Notch), normalization, and mathematical extraction of features (RMS, MDF, MNF, and bilateral variables). Transformed raw data into a clean feature dataset.
+- **Carolina**: Machine learning models and results. Programmed classifiers (baselines and main model), handled class imbalance, and implemented strict cross-validation (GroupKFold). Extracted metrics (F1-score, accuracy), confusion matrix, and performance plots.
+- **Estefanía & Carolina**: Discussion and error analysis. Correlated original signal noise/failures with model misclassifications and per-subject performance.

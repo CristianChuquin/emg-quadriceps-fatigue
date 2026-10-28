@@ -11,23 +11,35 @@ This repository contains the code, processed feature tables and figures behind t
 
 | Folder or file | Content | Output |
 |---|---|---|
-| `modelo.ipynb` | Full pipeline: baselines, dataset variants, Random Forest, evaluation, inference on a new signal. Exports `resultados_modelo_fatiga.csv` (true label and Random Forest prediction per test window) | Results tables and figures of Sections 6–7 |
-| `resultados_modelo_fatiga.csv` | True label and Random Forest prediction for each of the 17,860 test windows, exported by `modelo.ipynb` | Accuracy 0.755, macro-F1 0.755 (Table 8) |
+| `pipeline_completo.ipynb` | **Main notebook, end to end**: raw sEMG → band-pass 20–450 Hz + 60 Hz notch → 250 ms windows → RMS, MAV, WL, MDF, MNF → bilateral dataset → audit → z-score / GroupKFold tests by real subject → baselines (leave-one-subject-out) → exclusions, smoothing and interpolation → Random Forest → per-subject F1, feature importance → saved model → inference on a new signal | All tables and figures of Sections 3–7 (GroupKFold by real subject: Table 11) |
+| `modelo.ipynb` | Model-only notebook that starts from the processed feature tables. Exports `resultados_modelo_fatiga.csv` | Table 8, class distribution |
+| `resultados_modelo_fatiga.csv` | True label and Random Forest prediction for each of the 17,860 test windows | Accuracy 0.755, macro-F1 0.755 (Table 8) |
+| `data/raw/` | Where the raw dataset goes (not committed; see its README) | Input |
+| `data/test/` | Where the instructor's test signals go for the inference step (not committed) | Input |
 | `Modificacion_dataset/` | Feature tables per window: clean, bilateral, smoothed and interpolated versions | Input to `modelo.ipynb` |
-| `graficas/` | Confusion matrix, per-subject F1, feature importance, triplet comparison, class distribution (real vs predicted) | Figures of Section 7 |
+| `graficas/` | Confusion matrix, per-subject F1, feature importance, triplet comparison, class distribution | Figures of Section 7 |
 | `graficas_todos_los_sujetos/` | Feature trajectories for every participant, recording and leg (`sujetoN_RM_lado.png`) | Per-participant trajectories |
 | `prueba/` | Example of a new signal and its extracted features | Inference on a signal the model has not seen |
 | `signal_quality/` | Signal-quality and exclusion scripts, per-recording quality table | Sections 2.3–2.4 and Figure 1 |
 
-## How to run
+## How to run (clean environment)
 
-1. Install the dependencies: `pip install -r requirements.txt`.
-2. Open `modelo.ipynb` and run the cells in order. The notebook reads the CSV files by name, so place the files of `Modificacion_dataset/` and `prueba/` in the working directory (or adjust the paths).
-3. The trained model (`modelo_fatiga_rf.pkl`, about 300 MB) is not committed because it exceeds GitHub's file size limit. The notebook regenerates it in the Random Forest section.
-4. The `signal_quality/` scripts expect the raw dataset at `emg/raw/<participant>/` and are run from the repository root.
+```bash
+git clone https://github.com/CristianChuquin/emg-quadriceps-fatigue.git
+cd emg-quadriceps-fatigue
+pip install -r requirements.txt
+# put the raw dataset in data/raw/sujeto1 ... data/raw/sujeto15 (see data/raw/README.md)
+# put the test signals in data/test/ (see data/test/README.md)
+jupyter nbconvert --to notebook --execute pipeline_completo.ipynb --output pipeline_completo.ipynb
+```
+
+- Every path in `pipeline_completo.ipynb` is relative to the repository. The notebook creates `data/processed/`, `graficas/` and `resultados/` itself.
+- In Google Colab, the first cell mounts Drive and links `data/raw` to the `EMG - RAW data` folder automatically.
+- The trained model (`modelo_fatiga_rf.pkl`, about 300 MB) is not committed because it exceeds GitHub's file size limit; the notebook writes it to `resultados/`.
+- The `signal_quality/` scripts expect the raw dataset at `emg/raw/<participant>/` and are run from the repository root.
 
 ## Data
 
 - The raw EMG dataset is not committed. It was distributed by the course instructor.
-- No participant names are stored in this repository: the notebook labels participants `sujeto1`–`sujeto15`, and the quality scripts use S01–S15 (alphabetical order of the dataset folders).
-- Sampling rate: 1000 Hz.
+- No participant names are stored in this repository: participants are labelled `sujeto1`–`sujeto15`, and the quality scripts use S01–S15 (alphabetical order of the dataset folders).
+- Sampling rate: 1000 Hz. Columns of each raw CSV: `Relative_Time_s`, `ADC_Value`, `Voltage_mV`.
